@@ -1,4 +1,6 @@
+package pojetinho;
 import java.util.Scanner;
+
 public class Menu{
 Scanner sc = new Scanner(System.in);
    
@@ -11,10 +13,14 @@ System.out.println("\t\t\t\t>>MENU<<\n"
 + "\n1 - Cadastra\n"
 + "2 - Lista\n"
 + "3 - Deletar\n"
-+ "4 - Folha de Pagamento\n");
-
-  System.out.println("00 - Exit System");
-  opc = sc.nextInt(); 
++ "4 - Folha de Pagamento\n"
++ "5 - INSS Funconario \n"
++ "6 - IR Funconario \n"
++ "00 - Exit System\n"
+);
+	
+  System.out.print("Selecione a opção Desejada : ");
+opc = sc.nextInt(); 
 };
 
    public int getOpc(){

@@ -1,7 +1,6 @@
 
-/* Inporte feito para ser utilizado um Array liste */
+package pojetinho;
 import java.util.Scanner;
-
 public class Cadastro {
 
   /* Instancioando a class Scarne para poder ler o que vai ser Digitado */

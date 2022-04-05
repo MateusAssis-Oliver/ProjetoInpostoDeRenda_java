@@ -1,10 +1,17 @@
+package pojetinho;
 public class Funcionario {
 
   /* Atributos da Class Funcionario */
     private int id;
     private String nome;
     private double salarioFuncionario;
-    private double salarioDesconto;
+		private double salarioDesconto;
+		private double salarioDescontoINSS;
+		private double salarioDescontoIR;
+    private double tetoSalarialMinimoInss = 1212;
+    private double tetoSalarialMedioInss = 3500;
+    private double tetoSalarialMinimoIR = 2500;
+    private double tetoSalarialMedioIR  = 5000;
 
     public Funcionario (int id, String nome, double salario){
   
@@ -12,27 +19,49 @@ public class Funcionario {
       setId(id);
       setSalarioFuncionario(salario);
     }
-    
-    /* Metodos getts e setts */
 
-    private void setSalarioDesconto(double salarioDesconto) {
-        this.salarioDesconto = salarioDesconto;
-    }
+	public double getSalarioDescont(){
+		return this.salarioDesconto;
+	}
+   /* Metodos getts e setts */
+/*-------------------------INSS----------------------------*/
 
-    public double getSalarioDesconto() {
-        return salarioDesconto;
-    }
+	public double getSalarioDescontoINSS(){
+		return this.salarioDescontoINSS;
+	}
 
-    public double getSalarioFuncionario() {
-        return salarioFuncionario;
-    }
+	public double getSalarioDescontoIR(){
+		return this.salarioDescontoIR;
+	}
 
-    private void setSalarioFuncionario(double salarioFuncionario) {
-        this.salarioFuncionario = salarioFuncionario;
-        
-        impostoInss();
-        impostoIR();
-        
+  private double getTetoSalarialMinimoInss(){
+    return tetoSalarialMinimoInss;
+  }
+
+  private double getTetoSalarialMedioInss(){
+    return tetoSalarialMedioInss;
+  }
+
+/*  ----------------------IR-------------------------------------------------*/
+
+  public double getTetoSalarialMinimoIR(){
+    return tetoSalarialMinimoIR;
+  }
+	
+  public double getTetoSalarialMedioIR(){
+    return tetoSalarialMedioIR;
+  }
+
+  public double getSalarioFuncionario() {
+    return salarioFuncionario;
+  }
+
+  private void setSalarioFuncionario(double salarioFuncionario) {
+		
+    this.salarioFuncionario = salarioFuncionario;
+		this.salarioDescontoINSS = impostoInss(salarioFuncionario);
+		this.salarioDescontoIR = impostoIR(salarioFuncionario);
+		this.salarioDesconto = impostoIR(impostoInss(salarioFuncionario));    
     }
 
     public int getId() {
@@ -52,43 +81,41 @@ public class Funcionario {
     }
 
     public void showFuncionario() {
-
-        System.out.println(
-                ">>Funcionario<<\n" +
-                        "\nid:" + getId() +
-                        "\nNome:" + getNome() +
-                        "\nSalario base:" + getSalarioFuncionario());
+			System.out.println(
+      ">>Funcionario<<\n" +
+      "\nid:" 						+ getId() 	+
+      "\nNome:" 					+ getNome() +
+      "\nSalario base:" 	+ getSalarioFuncionario());
     }
 
-    public void impostoInss() {
+  /* METODO SPARA CALCULAR IMPOSTO*/
+public double impostoInss( double salario) {
+  
+if (salario <= getTetoSalarialMinimoInss()) {
 
-        if (getSalarioFuncionario() <= 1212) {
+return ( ( salario - salario * 0.075) );
+	
+	
+}else if (salario > getTetoSalarialMinimoInss() && salario  <= getTetoSalarialMedioInss()){
 
-            setSalarioDesconto(getSalarioFuncionario() - getSalarioFuncionario() * 0.075);
-            System.out.print("desconto de 75%");
-        } else if (getSalarioFuncionario() > 1212 && getSalarioFuncionario() <= 3500) {
+return (salario - ( salario * 0.09 ) );
 
-            setSalarioDesconto(getSalarioFuncionario() - getSalarioFuncionario() * 0.09);
-            System.out.print("desconto de 9%");
+} else { return  ( salario - (salario * 0.12) );}
+	
+}
 
-        } else {
-            setSalarioDesconto(getSalarioFuncionario() - getSalarioFuncionario() * 0.12);
-            System.out.print("desconto de 12%");
-        }
 
-    }
+public double impostoIR(double salario){
 
-    public void impostoIR() {
+if (salario > getTetoSalarialMinimoIR() && salario <= getTetoSalarialMedioIR()) {
 
-        if (getSalarioFuncionario() >= 2500 && getSalarioFuncionario() <= 5000) {
+return  ( salario - (salario * 0.15)) ;
+	
+	}else if( salario > getTetoSalarialMedioIR() ){
+return  (salario - ( salario * 0.275) );  
 
-            System.out.print("desconto de 15%");
-            setSalarioDesconto(getSalarioDesconto() - (getSalarioFuncionario() * 0.15));
-
-        }else if(getSalarioFuncionario() > 5000) {
-            System.out.print("desconto de 12%");
-            setSalarioDesconto(getSalarioDesconto() - (getSalarioFuncionario() * 0.12) );
-        }
+  }
+	return 0;
     }
 
 }
